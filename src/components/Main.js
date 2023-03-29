@@ -1,5 +1,5 @@
 import React from 'react';
-import HotelInfo from './HotelInfo.js'
+import HotelInfo from './HotelInfo'
 import Welcome from './Welcome.js'
 
 const Main = () => {

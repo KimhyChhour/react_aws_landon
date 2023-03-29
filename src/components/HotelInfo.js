@@ -1,8 +1,37 @@
-import React from 'react';
-import accessibilityData from './data/accessibilities.json';
-import servicesData from './data/services.json';
+import React, { useState, useEffect } from 'react';
+// import accessibilityData from './data/accessibilities.json'
+// import servicesData from './data/services.json'
 
 const HotelInfo = () => {
+  const [accessibilityData, setAccessibilityData] = useState([]);
+  const [servicesData, setServicesData] = useState([]);
+
+  const loadAccessibilityData = async() => {
+    // Query the API Gateway
+    const resp = await fetch('https://a6lnno41t7.execute-api.us-east-1.amazonaws.com/Production/accessibilities');
+    let jsonData = await resp.json();
+
+    // Assign response data to our state variable
+    setAccessibilityData(jsonData);
+  }
+
+  const loadServicesData = async() => {
+    // Query the API Gateway
+    const resp = await fetch('https://a6lnno41t7.execute-api.us-east-1.amazonaws.com/Production/services');
+    let jsonData = await resp.json();
+
+    // Assign response data to our state variable
+    setServicesData(jsonData);
+  }
+
+  useEffect(() => {
+    // Load the accessibility data from the API Gateway
+    loadAccessibilityData();
+
+    // Load the services data from the API Gateway
+    loadServicesData();
+  }, []);
+  
   return (
     <div className="scene" id="hotelinfo">
       <article className="heading">
@@ -25,7 +54,7 @@ const HotelInfo = () => {
           <p>Our services and amenities are designed to make your travel easy, your stay comfortable, and your experience one-of-a-kind.</p>
           <ul>
             {
-              servicesData.map((service) => 
+              servicesData.map((service) =>
                 <li>{service.name}</li>
               )
             }
@@ -36,7 +65,7 @@ const HotelInfo = () => {
           <p>We're committed to maintaining the same quality of service for every individual. We offer the following facilities for those with special needs:</p>
           <ul>
             {
-              accessibilityData.map((accessibility) => 
+              accessibilityData.map((accessibility) =>
                 <li>{accessibility.name}</li>
               )
             }
